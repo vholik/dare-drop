@@ -5,11 +5,11 @@ import {
   HttpStatus,
   Param,
 } from '@nestjs/common';
-import { StreamerService } from './streamer.service';
+import { StreamersService } from 'src/streamers/streamers.service';
 
 @Controller('streamer')
 export class StreamerController {
-  constructor(private streamerService: StreamerService) {}
+  constructor(private streamersService: StreamersService) {}
 
   @Get(':id')
   findOne(@Param('id') id: number) {
@@ -17,6 +17,6 @@ export class StreamerController {
       throw new HttpException('Provide id', HttpStatus.BAD_REQUEST);
     }
 
-    return this.streamerService.findOne(id);
+    return this.streamersService.findOne(id);
   }
 }

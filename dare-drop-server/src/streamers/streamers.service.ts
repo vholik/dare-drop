@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Streamer } from './entities';
+import { Streamer } from 'src/streamers/entities';
 import { Repository } from 'typeorm';
 import { CreateStreamerDto, VoteState } from './dto';
 
 @Injectable()
-export class StreamerService {
+export class StreamersService {
   constructor(
     @InjectRepository(Streamer)
     private streamersRepository: Repository<Streamer>,

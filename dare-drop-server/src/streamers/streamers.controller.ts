@@ -8,21 +8,21 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { CreateStreamerDto, VoteStreamerDto } from 'src/streamer/dto';
-import { StreamerService } from 'src/streamer/streamer.service';
+import { StreamersService } from './streamers.service';
+import { CreateStreamerDto, VoteStreamerDto } from './dto';
 
 @Controller('streamers')
 export class StreamersController {
-  constructor(private streamerService: StreamerService) {}
+  constructor(private streamersService: StreamersService) {}
 
   @Get()
   findAll() {
-    return this.streamerService.findAll();
+    return this.streamersService.findAll();
   }
 
   @Post()
   create(@Body() dto: CreateStreamerDto) {
-    return this.streamerService.createStreamer(dto);
+    return this.streamersService.createStreamer(dto);
   }
 
   @Put(':id/vote')
@@ -33,6 +33,6 @@ export class StreamersController {
 
     const { state } = dto;
 
-    return this.streamerService.vote(id, state);
+    return this.streamersService.vote(id, state);
   }
 }

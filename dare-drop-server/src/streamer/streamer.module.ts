@@ -1,14 +1,9 @@
 import { Module } from '@nestjs/common';
 import { StreamerController } from './streamer.controller';
-import { StreamerService } from './streamer.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Streamer } from './entities';
-import { StreamerGateway } from './streamer.gateway';
+import { StreamersModule } from 'src/streamers/streamers.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Streamer])],
+  imports: [StreamersModule],
   controllers: [StreamerController],
-  providers: [StreamerService, StreamerGateway],
-  exports: [StreamerService],
 })
 export class StreamerModule {}

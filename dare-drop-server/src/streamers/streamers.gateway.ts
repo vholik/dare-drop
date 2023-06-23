@@ -13,7 +13,7 @@ import { VoteState } from './dto';
     origin: '*',
   },
 })
-export class StreamerGateway {
+export class StreamersGateway {
   @SubscribeMessage('create-streamer')
   createStreamer(
     @MessageBody() data: { id: number },
