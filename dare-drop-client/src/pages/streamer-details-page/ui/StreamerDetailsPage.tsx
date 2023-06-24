@@ -9,10 +9,14 @@ import { __API_URL__ } from "@/shared/consts/api";
 export const StreamerDetailsPage: FC = () => {
   const { id } = useParams<{ id: string }>();
 
+  if (!id) {
+    return null;
+  }
+
   return (
     <div className={classNames(cls.StreamerDetails, {}, "container")}>
       <Heading label="Streamer's page" />
-      <StreamerCard />
+      <StreamerCard id={id} />
     </div>
   );
 };

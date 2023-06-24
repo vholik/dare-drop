@@ -5,6 +5,8 @@ import { Avatar } from "@/shared/ui/Avatar/Avatar";
 import { Text } from "@/shared/ui/Text";
 import { Skeleton } from "@/shared/ui/Skeleton";
 import { Streamer } from "../..";
+import { Link } from "react-router-dom";
+import { getRouteStreamerDetails } from "@/app/router/config/router-config";
 
 interface StreamerRowProps {
   className?: string;
@@ -30,15 +32,22 @@ export const StreamerRow: FC<StreamerRowProps> = memo((props) => {
     );
   }
 
+  if (!streamer) {
+    return null;
+  }
+
   return (
     <article className={classNames(cls.StreamerRow, {}, [className])}>
-      <div className={cls.left}>
+      <Link
+        to={getRouteStreamerDetails(String(streamer.id))}
+        className={cls.left}
+      >
         <Avatar src={streamer?.image} alt="avatar" className={cls.avatar} />
         <div>
           <Text title={streamer?.name} size="size_s" />
           <Text text={streamer?.platform} size="size_s" color={"secondary"} />
         </div>
-      </div>
+      </Link>
       {right}
     </article>
   );
