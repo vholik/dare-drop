@@ -1,0 +1,17 @@
+.Textarea {
+  font: var(--font-m);
+  resize: none;
+  border-radius: var(--border-radius-m);
+  padding: 0.9em 1.1em;
+  background-color: var(--secondary-bg-color);
+  color: var(--color-primary);
+  outline: none;
+  min-width: 100%;
+  min-height: 180px;
+  transition: box-shadow var(--transition), border var(--transition);
+  border: 1px solid var(--stroke-color);
+
+  &:focus {
+    border: 1px solid var(--primary-variant-color);
+  }
+}

@@ -1,0 +1,62 @@
+.options {
+  position: absolute;
+  list-style: none;
+  background-color: var(--bg-secondary-color);
+  border: 1px solid var(--stroke-color);
+  padding: 0.75em;
+  border-radius: var(--border-radius-m);
+  box-shadow: var(--box-shadow);
+  min-width: max-content;
+  z-index: 1000;
+  outline-color: transparent;
+}
+
+.item {
+  background-color: var(--bg-secondary-color);
+  padding: 0.375em 1em;
+  border-radius: var(--border-radius-m);
+  font: var(--font-m);
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.trigger {
+  width: 100%;
+  background-color: var(--secondary-bg-color);
+  justify-content: space-between;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  outline-color: transparent;
+  padding: 0.9em 1.1em;
+  font: var(--font-m);
+  transition: box-shadow var(--transition), border var(--transition);
+  border: 1px solid var(--stroke-color);
+  color: var(--primary-color);
+  border-radius: var(--border-radius-m);
+}
+
+.menu {
+  position: absolute;
+  list-style: none;
+  padding: 0.75em;
+  border-radius: var(--border-radius-m);
+  box-shadow: var(--box-shadow);
+  min-width: 180px;
+  z-index: 1000;
+  outline-color: transparent;
+  background-color: var(--secondary-bg-color);
+  border: 1px solid var(--stroke-color);
+}
+
+.active {
+  background-color: var(--tertiary-bg-color);
+}
+
+.open {
+  border: 1px solid var(--primary-variant-color);
+}

@@ -18,7 +18,11 @@ export class StreamersService {
   }
 
   async findAll() {
-    const allStreamers = await this.streamersRepository.find();
+    const allStreamers = await this.streamersRepository.find({
+      order: {
+        id: 'DESC',
+      },
+    });
 
     return allStreamers;
   }

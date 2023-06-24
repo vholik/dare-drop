@@ -1,0 +1,19 @@
+.VoteStreamer {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.downvoteIcon {
+  transform: rotate(180deg);
+  path {
+  }
+}
+
+.activeBtn {
+  border: 1px solid var(--primary-variant-color);
+
+  path {
+    fill: var(--primary-variant-color);
+  }
+}

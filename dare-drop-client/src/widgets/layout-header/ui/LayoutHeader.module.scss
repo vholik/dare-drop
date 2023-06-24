@@ -1,0 +1,10 @@
+.LayoutHeader {
+  background-color: var(--primary-variant-color);
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0;
+
+  a {
+    font-weight: 500;
+  }
+}

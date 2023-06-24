@@ -1,0 +1,15 @@
+.Input {
+  font: var(--font-m);
+  border-radius: var(--border-radius-m);
+  padding: 0.9em 1.1em;
+  background-color: var(--secondary-bg-color);
+  color: var(--color-primary);
+  outline: none;
+  width: 100%;
+  transition: box-shadow var(--transition), border var(--transition);
+  border: 1px solid var(--stroke-color);
+
+  &:focus {
+    border: 1px solid var(--primary-variant-color);
+  }
+}

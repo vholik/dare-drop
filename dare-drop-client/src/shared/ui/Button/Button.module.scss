@@ -1,0 +1,42 @@
+.Button {
+  width: 100%;
+  font: var(--font-m);
+  color: var(--primary-color);
+  background-color: transparent;
+  padding: 0.9em;
+  border: none;
+  border-radius: var(--border-radius-m);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.loading {
+  cursor: progress;
+  &:hover {
+    background-color: var(--primary-variant-color);
+  }
+}
+
+.square {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.primary {
+  background-color: var(--primary-variant-color);
+
+  &:hover {
+    background-color: var(--primary-variant-hover-color);
+  }
+}
+
+.secondary {
+  border: 1px solid var(--stroke-color);
+
+  &:hover {
+    background-color: var(--secondary-bg-color);
+  }
+}

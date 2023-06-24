@@ -1,0 +1,8 @@
+.Note {
+  background-color: var(--error-bg-color);
+  color: var(--error-font-color);
+  border: 1px solid var(--error-stroke-color);
+  padding: 1rem;
+  border-radius: var(--border-radius-m);
+  margin-top: 1rem;
+}

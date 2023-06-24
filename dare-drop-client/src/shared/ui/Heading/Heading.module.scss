@@ -1,0 +1,10 @@
+.Heading {
+  font: var(--font-l);
+  font-weight: 600;
+}
+
+.line {
+  margin-top: 1rem;
+  border: none;
+  border-top: 1px solid var(--stroke-color);
+}

@@ -1,0 +1,36 @@
+.StreamerCard {
+  border: 1px solid var(--stroke-color);
+  border-radius: var(--border-radius-m);
+  margin-top: 2rem;
+  background-color: var(--tertiary-bg-color);
+  position: relative;
+  padding-top: 10rem;
+  z-index: 1;
+}
+
+.bg {
+  width: 100%;
+  border-radius: var(--border-radius-m) var(--border-radius-m) 0 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.inner {
+  padding: 1.5rem;
+  z-index: 2;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.description {
+  margin-top: 1rem;
+}
