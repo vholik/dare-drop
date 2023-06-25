@@ -13,8 +13,8 @@ const PHOTO_URL =
 
 @Entity()
 export class Streamer {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   name: string;

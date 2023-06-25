@@ -26,7 +26,7 @@ export class StreamersController {
   }
 
   @Put(':id/vote')
-  vote(@Body() dto: VoteStreamerDto, @Param('id') id: number) {
+  vote(@Body() dto: VoteStreamerDto, @Param('id') id: string) {
     if (!id) {
       throw new HttpException('Provide correct id', HttpStatus.BAD_REQUEST);
     }

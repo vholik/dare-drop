@@ -11,7 +11,7 @@ export class StreamersService {
     private streamersRepository: Repository<Streamer>,
   ) {}
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const streamer = await this.streamersRepository.findOneBy({ id: id });
 
     return streamer;
@@ -33,7 +33,7 @@ export class StreamersService {
     return await this.streamersRepository.save(newStreamer);
   }
 
-  async vote(id: number, state: VoteState) {
+  async vote(id: string, state: VoteState) {
     if (state === VoteState.UPVOTE) {
       await this.streamersRepository.increment({ id }, 'voteCount', 1);
     } else {

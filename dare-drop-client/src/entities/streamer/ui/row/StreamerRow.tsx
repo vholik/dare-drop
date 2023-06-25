@@ -7,6 +7,7 @@ import { Skeleton } from "@/shared/ui/Skeleton";
 import { Streamer } from "../..";
 import { Link } from "react-router-dom";
 import { getRouteStreamerDetails } from "@/app/router/config/router-config";
+import { platformMapper } from "@/shared/consts/platform";
 
 interface StreamerRowProps {
   className?: string;
@@ -44,8 +45,12 @@ export const StreamerRow: FC<StreamerRowProps> = memo((props) => {
       >
         <Avatar src={streamer?.image} alt="avatar" className={cls.avatar} />
         <div>
-          <Text title={streamer?.name} size="size_s" />
-          <Text text={streamer?.platform} size="size_s" color={"secondary"} />
+          <Text title={streamer?.name} weight="medium" size="size_s" />
+          <Text
+            text={platformMapper[streamer?.platform]}
+            size="size_s"
+            color={"secondary"}
+          />
         </div>
       </Link>
       {right}

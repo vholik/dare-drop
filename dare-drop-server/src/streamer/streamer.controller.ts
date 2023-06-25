@@ -12,7 +12,7 @@ export class StreamerController {
   constructor(private streamersService: StreamersService) {}
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  findOne(@Param('id') id: string) {
     if (!id) {
       throw new HttpException('Provide id', HttpStatus.BAD_REQUEST);
     }

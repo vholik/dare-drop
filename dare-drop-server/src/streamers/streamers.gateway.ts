@@ -23,7 +23,7 @@ export class StreamersGateway {
       throw new WsException('Provide id');
     }
 
-    socket.broadcast.emit('get-streamer', data);
+    socket.broadcast.emit('get-new-streamer', data);
   }
 
   @SubscribeMessage('vote-streamer')
@@ -31,6 +31,7 @@ export class StreamersGateway {
     @MessageBody() data: { id: number; state: VoteState },
     @ConnectedSocket() socket: Socket,
   ) {
+    // NOTE MAKE JUST RETURN VOTE COUNT
     if (!data.state) {
       throw new WsException('Provide vote state');
     }
@@ -39,6 +40,6 @@ export class StreamersGateway {
       throw new WsException('Provide id');
     }
 
-    socket.broadcast.emit('get-streamers-vote', data);
+    socket.broadcast.emit('get-streamer-vote', data);
   }
 }

@@ -48,7 +48,7 @@ export const AddStreamerForm: FC<AddStreamerFormProps> = memo((props) => {
     formState: { errors },
     reset,
   } = useForm<AddStreamerArgs>({
-    mode: "onSubmit",
+    mode: "onBlur",
     defaultValues: {
       platform: Platform.TWITCH,
     },
@@ -73,6 +73,11 @@ export const AddStreamerForm: FC<AddStreamerFormProps> = memo((props) => {
             minLength: {
               message: "Min name length is 3",
               value: 3,
+            },
+
+            maxLength: {
+              message: "Max name length is 50",
+              value: 50,
             },
           })}
         />
@@ -102,11 +107,17 @@ export const AddStreamerForm: FC<AddStreamerFormProps> = memo((props) => {
               value: 3,
               message: "Min length of description is 3",
             },
+            maxLength: {
+              value: 255,
+              message: "Max length of description is 255",
+            },
           })}
         />
         {errors.description && <Note message={errors.description.message} />}
       </Label>
-      <Button isLoading={isLoading}>Add new streamer</Button>
+      <Button disabled={isLoading} isLoading={isLoading}>
+        Add new streamer
+      </Button>
     </form>
   );
 });

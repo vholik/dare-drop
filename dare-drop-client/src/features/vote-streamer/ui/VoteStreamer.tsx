@@ -1,10 +1,11 @@
-import { FC, memo } from "react";
+import { FC, memo, useEffect, useState } from "react";
 import classNames from "classnames";
 import cls from "./VoteStreamer.module.scss";
 import UpvoteIcon from "@/shared/assets/icons/upvote-icon.svg";
 import { Text } from "@/shared/ui/Text";
 import { Button } from "@/shared/ui/Button";
 import { useVoteStreamer } from "../model/lib/use-vote-streamer";
+import { socket } from "../api/socket";
 
 interface VoteStreamerProps {
   className?: string;
