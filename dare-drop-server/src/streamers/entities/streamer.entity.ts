@@ -1,4 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/users/entities';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { UpvoteUserStreamer } from './upvote-user-streamer.entity';
+import { DownvoteUserStreamer } from './downvote-user-streamer.entity';
 
 export enum Platform {
   TWITCH = 'twitch',
@@ -33,6 +36,9 @@ export class Streamer {
   @Column()
   description: string;
 
-  @Column({ type: 'int', default: 0 })
-  voteCount: number;
+  @OneToMany(() => UpvoteUserStreamer, (us) => us.streamer)
+  upvoteUserConnection: Promise<UpvoteUserStreamer[]>;
+
+  @OneToMany(() => DownvoteUserStreamer, (us) => us.streamer)
+  downvoteUserConnection: Promise<DownvoteUserStreamer[]>;
 }
