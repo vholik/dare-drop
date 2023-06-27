@@ -9,6 +9,6 @@ export interface AddStreamerArgs {
 }
 
 export const addStreamer = async (args: AddStreamerArgs): Promise<Streamer> => {
-  const response = await $api.post("streamers", args);
+  const response = await $api.post("/streamers", args);
   return response.data;
 };

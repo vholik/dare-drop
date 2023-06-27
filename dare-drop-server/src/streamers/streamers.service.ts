@@ -1,15 +1,8 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Streamer } from 'src/streamers/entities';
 import { Repository } from 'typeorm';
 import { CreateStreamerDto, VoteState } from './dto';
-import { UsersService } from 'src/users/users.service';
-import { User } from 'src/users/entities';
 import { UpvoteUserStreamer } from './entities/upvote-user-streamer.entity';
 import { DownvoteUserStreamer } from './entities/downvote-user-streamer.entity';
 
@@ -22,7 +15,6 @@ export class StreamersService {
     private upvoteUserStreamerRepository: Repository<UpvoteUserStreamer>,
     @InjectRepository(DownvoteUserStreamer)
     private downvoteUserStreamerRepository: Repository<DownvoteUserStreamer>,
-    private usersService: UsersService,
   ) {}
 
   async findOne(id: string) {
@@ -31,14 +23,42 @@ export class StreamersService {
     return streamer;
   }
 
-  async findAll() {
+  async findAll(userId?: string) {
     const allStreamers = await this.streamersRepository.find({
       order: {
         id: 'DESC',
       },
     });
 
-    return allStreamers;
+    if (userId) {
+      const authMapped = await Promise.all(
+        allStreamers.map(async (streamer) => {
+          const { id } = streamer;
+
+          return {
+            ...streamer,
+            isDownvoted: await this.isAlreadyDownvoted(id, userId),
+            isUpvoted: await this.isAlreadyUpvoted(id, userId),
+            count: await this.getStreamerCount(id),
+          };
+        }),
+      );
+
+      return authMapped;
+    }
+
+    const mapped = await Promise.all(
+      allStreamers.map(async (streamer) => {
+        const { id } = streamer;
+
+        return {
+          ...streamer,
+          count: await this.getStreamerCount(id),
+        };
+      }),
+    );
+
+    return mapped;
   }
 
   async createStreamer(dto: CreateStreamerDto) {
@@ -47,11 +67,29 @@ export class StreamersService {
     return await this.streamersRepository.save(newStreamer);
   }
 
-  async upvoteStreamer(streamerId: string, userId: string) {
-    const isUserAlreadyUpvoted =
-      await this.upvoteUserStreamerRepository.findOneBy({ streamerId, userId });
+  async isAlreadyUpvoted(streamerId: string, userId: string) {
+    return await this.upvoteUserStreamerRepository.exist({
+      where: {
+        streamerId,
+        userId,
+      },
+    });
+  }
 
-    if (isUserAlreadyUpvoted) {
+  async isAlreadyDownvoted(streamerId: string, userId: string) {
+    return await this.downvoteUserStreamerRepository.exist({
+      where: {
+        streamerId,
+        userId,
+      },
+    });
+  }
+
+  async upvoteStreamer(streamerId: string, userId: string) {
+    const isAlreadyUpvoted = await this.isAlreadyUpvoted(streamerId, userId);
+    await this.downvoteUserStreamerRepository.delete({ streamerId, userId });
+
+    if (isAlreadyUpvoted) {
       await this.upvoteUserStreamerRepository.delete({ streamerId, userId });
     } else {
       await this.upvoteUserStreamerRepository
@@ -64,13 +102,14 @@ export class StreamersService {
   }
 
   async downvoteStreamer(streamerId: string, userId: string) {
-    const isUserAlreadyDownvoted =
-      await this.downvoteUserStreamerRepository.findOneBy({
-        streamerId,
-        userId,
-      });
+    await this.upvoteUserStreamerRepository.delete({ streamerId, userId });
 
-    if (isUserAlreadyDownvoted) {
+    const isAlreadyDownvoted = await this.isAlreadyDownvoted(
+      streamerId,
+      userId,
+    );
+
+    if (isAlreadyDownvoted) {
       await this.downvoteUserStreamerRepository.delete({ streamerId, userId });
     } else {
       await this.downvoteUserStreamerRepository
@@ -82,25 +121,25 @@ export class StreamersService {
     }
   }
 
-  async vote(streamerId: string, vote: VoteState, userId: string) {
-    if (vote === VoteState.UPVOTE) {
-      console.log('upvote');
-      await this.upvoteStreamer(streamerId, userId);
-    } else {
-      console.log('downvote');
-      await this.downvoteStreamer(streamerId, userId);
-    }
-
+  async getStreamerCount(streamerId: string) {
     const upvoteCount = await this.upvoteUserStreamerRepository.countBy({
       streamerId,
-      userId,
     });
 
     const downvoteCount = await this.downvoteUserStreamerRepository.countBy({
       streamerId,
-      userId,
     });
 
-    return { upvoteCount, downvoteCount };
+    return upvoteCount - downvoteCount || 0;
+  }
+
+  async vote(streamerId: string, vote: VoteState, userId: string) {
+    if (vote === VoteState.UPVOTE) {
+      await this.upvoteStreamer(streamerId, userId);
+    } else {
+      await this.downvoteStreamer(streamerId, userId);
+    }
+
+    return await this.getStreamerCount(streamerId);
   }
 }

@@ -12,16 +12,18 @@ import {
 } from '@nestjs/common';
 import { StreamersService } from './streamers.service';
 import { CreateStreamerDto, VoteStreamerDto } from './dto';
-import { AccessTokenGuard } from 'src/common/guards';
+import { AccessTokenGuard, OptionalAccessTokenGuard } from 'src/common/guards';
 import { Request } from 'express';
 
 @Controller('streamers')
 export class StreamersController {
   constructor(private streamersService: StreamersService) {}
 
+  @UseGuards(OptionalAccessTokenGuard)
   @Get()
-  findAll() {
-    return this.streamersService.findAll();
+  findAll(@Req() req: Request) {
+    const userId: string = req.user['sub'];
+    return this.streamersService.findAll(userId);
   }
 
   @Post()

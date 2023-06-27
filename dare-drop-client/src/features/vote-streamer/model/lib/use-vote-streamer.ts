@@ -36,7 +36,7 @@ function useVoteApi(streamerId: number) {
 }
 
 function useSocket() {
-  const [isConnected, setIsConnected] = useState(socket.connected);
+  // const [isConnected, setIsConnected] = useState(socket.connected);
 
   // useEffect(() => {
   //   function onConnect() {
@@ -67,6 +67,8 @@ function useSocket() {
   //     socket.off("get-streamer-vote", onGetStreamerVote);
   //   };
   // }, []);
+
+  return { isConnected: false };
 
   return useMemo(() => ({ isConnected }), [isConnected]);
 }

@@ -20,6 +20,12 @@ export class AuthenticationController {
   }
 
   @UseGuards(AccessTokenGuard)
+  @Get('me')
+  me(@Req() req: Request) {
+    return req.user['sub'];
+  }
+
+  @UseGuards(AccessTokenGuard)
   @Get('logout')
   logout(@Req() req: Request) {
     this.authenticationService.logout(req.user['sub']);

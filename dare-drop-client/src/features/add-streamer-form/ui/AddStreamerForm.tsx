@@ -13,6 +13,7 @@ import { AddStreamerArgs, addStreamer } from "../model/services/add-streamer";
 import { Platform } from "@/shared/consts/platform";
 import { Note } from "@/shared/ui/Note";
 import { useMutation } from "@tanstack/react-query";
+import { useAddStreamer } from "../model/lib/user-add-streamer";
 
 interface AddStreamerFormProps {
   className?: string;
@@ -33,26 +34,8 @@ const options: DropdownItem<Platform>[] = [
 export const AddStreamerForm: FC<AddStreamerFormProps> = memo((props) => {
   const { className, onAddStreamer } = props;
 
-  const { mutate, isLoading, error } = useMutation({
-    mutationFn: (body: AddStreamerArgs) => addStreamer(body),
-    onSuccess: () => {
-      onAddStreamer?.();
-      reset();
-    },
-  });
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-    reset,
-  } = useForm<AddStreamerArgs>({
-    mode: "onBlur",
-    defaultValues: {
-      platform: Platform.TWITCH,
-    },
-  });
+  const { control, error, errors, handleSubmit, isLoading, mutate, register } =
+    useAddStreamer(onAddStreamer);
 
   const errorNote = error ? <Note message="Error adding streamer" /> : null;
 
