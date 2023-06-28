@@ -9,7 +9,7 @@ import { useInitUser } from "@/entities/user/model/lib/use-init-user";
 
 const App: FC = () => {
   const inited = useUserStore()._inited;
-  const { data } = useInitUser();
+  useInitUser();
 
   return (
     <>

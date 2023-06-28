@@ -4,6 +4,7 @@ import { VoteState } from "@/shared/types/vote";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDebounce } from "@/shared/lib/hooks";
 import { socket } from "../../api/socket";
+import { Streamer } from "@/entities/streamer";
 
 interface OnGetNewStreamerResponse {
   id: string;
@@ -73,10 +74,25 @@ function useSocket() {
   return useMemo(() => ({ isConnected }), [isConnected]);
 }
 
-export function useVoteStreamer(streamerId: number, defaultVoteCount: number) {
-  const [vote, setVote] = useState<VoteState | undefined>();
-  const [voteCount, setVoteCount] = useState<number>(defaultVoteCount || 0);
-  const { voteHandler: handler } = useVoteApi(streamerId);
+function getVote(
+  isUpvoted?: boolean,
+  isDownvoted?: boolean
+): VoteState | undefined {
+  if (isUpvoted) {
+    return "upvote";
+  } else if (isDownvoted) {
+    return "downvote";
+  }
+
+  return;
+}
+
+export function useVoteStreamer(streamer: Streamer) {
+  const [vote, setVote] = useState<VoteState | undefined>(
+    getVote(streamer.isUpvoted, streamer.isDownvoted)
+  );
+  const [voteCount, setVoteCount] = useState<number>(streamer.count || 0);
+  const { voteHandler: handler } = useVoteApi(streamer.id);
   const { isConnected } = useSocket();
 
   const voteHandler = useDebounce(handler, 250);
@@ -86,21 +102,21 @@ export function useVoteStreamer(streamerId: number, defaultVoteCount: number) {
       voteHandler("downvote", () => {
         setVote(undefined);
         setVoteCount((prev) => --prev);
-        if (isConnected === true) {
-          socket.emit("vote-streamer", { id: streamerId, state: "downvote" });
-        }
+        // if (isConnected === true) {
+        //   socket.emit("vote-streamer", { id: streamer.id, state: "downvote" });
+        // }
       });
     } else {
       voteHandler("upvote", () => {
         setVote("upvote");
         setVoteCount((prev) => ++prev);
 
-        if (isConnected === true) {
-          socket.emit("vote-streamer", { id: streamerId, state: "upvote" });
-        }
+        // if (isConnected === true) {
+        //   socket.emit("vote-streamer", { id: streamer.id, state: "upvote" });
+        // }
       });
     }
-  }, [isConnected, streamerId, vote, voteHandler]);
+  }, [isConnected, streamer.id, vote, voteHandler]);
 
   const downvoteHandler = useCallback(() => {
     if (vote === "downvote") {
@@ -108,29 +124,26 @@ export function useVoteStreamer(streamerId: number, defaultVoteCount: number) {
         setVote(undefined);
         setVoteCount((prev) => ++prev);
 
-        if (isConnected === true) {
-          socket.emit("vote-streamer", { id: streamerId, state: "upvote" });
-        }
+        // if (isConnected === true) {
+        //   socket.emit("vote-streamer", { id: streamer.id, state: "upvote" });
+        // }
       });
     } else {
       voteHandler("downvote", () => {
         setVote("downvote");
         setVoteCount((prev) => --prev);
 
-        if (isConnected === true) {
-          socket.emit("vote-streamer", { id: streamerId, state: "downvote" });
-        }
+        // if (isConnected === true) {
+        //   socket.emit("vote-streamer", { id: streamer.id, state: "downvote" });
+        // }
       });
     }
-  }, [isConnected, streamerId, vote, voteHandler]);
+  }, [isConnected, streamer.id, vote, voteHandler]);
 
-  return useMemo(
-    () => ({
-      voteCount,
-      downvoteHandler,
-      upvoteHandler,
-      vote,
-    }),
-    [downvoteHandler, upvoteHandler, vote, voteCount]
-  );
+  return {
+    voteCount,
+    downvoteHandler,
+    upvoteHandler,
+    vote,
+  };
 }

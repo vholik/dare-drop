@@ -1,16 +1,16 @@
 import { FC, memo } from "react";
 import classNames from "classnames";
-import cls from "./AuthForm.module.scss";
+import cls from "./LoginForm.module.scss";
 import { Label } from "@/shared/ui/Label";
 import { Input } from "@/shared/ui/Input";
 import { Button } from "@/shared/ui/Button";
 import { Text } from "@/shared/ui/Text";
-import { SingInArgs } from "../../model/services/sign-in";
+import { SingInArgs, signIn } from "../../model/services/sign-in";
 import { SubmitHandler } from "react-hook-form";
 import { Note } from "@/shared/ui/Note";
-import { useSignIn } from "../../model/lib/use-sign-in";
+import { useAuth } from "../../model/lib/use-auth";
 
-interface AuthFormProps {
+export interface LoginFormProps {
   className?: string;
   onSuccess?: (args: { accessToken: string }) => void;
 }
@@ -18,10 +18,10 @@ interface AuthFormProps {
 /**
  * @feature AuthForm modal
  */
-export const AuthForm: FC<AuthFormProps> = memo((props) => {
+const LoginForm: FC<LoginFormProps> = memo((props) => {
   const { className, onSuccess } = props;
   const { mutate, isLoading, error, formErrors, handleSubmit, register } =
-    useSignIn(onSuccess);
+    useAuth({ onSuccessFunc: onSuccess, fn: signIn });
 
   return (
     <form
@@ -43,6 +43,10 @@ export const AuthForm: FC<AuthFormProps> = memo((props) => {
                 message: "Please provide email",
                 value: true,
               },
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: "Entered value does not match email format",
+              },
               minLength: {
                 message: "Min email length is 3",
                 value: 3,
@@ -58,6 +62,7 @@ export const AuthForm: FC<AuthFormProps> = memo((props) => {
         </Label>
         <Label label="Your password">
           <Input
+            type="password"
             {...register("password", {
               required: {
                 message: "Please provide password",
@@ -87,3 +92,5 @@ export const AuthForm: FC<AuthFormProps> = memo((props) => {
     </form>
   );
 });
+
+export default LoginForm;

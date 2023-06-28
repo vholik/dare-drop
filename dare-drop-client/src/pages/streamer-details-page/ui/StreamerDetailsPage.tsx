@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { StreamerCard } from "@/entities/streamer";
 import { Heading } from "@/shared/ui/Heading";
 
-export const StreamerDetailsPage: FC = () => {
+const StreamerDetailsPage: FC = () => {
   const { id } = useParams<{ id: string }>();
 
   if (!id) {
@@ -19,3 +19,5 @@ export const StreamerDetailsPage: FC = () => {
     </div>
   );
 };
+
+export default StreamerDetailsPage;

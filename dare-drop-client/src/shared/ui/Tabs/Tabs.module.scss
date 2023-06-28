@@ -1,0 +1,25 @@
+.btn {
+  border: none;
+  font: var(--font-m);
+  color: var(--secondary-color);
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  width: 100%;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.Tabs {
+  background-color: var(--secondary-bg-color);
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.activeBtn {
+  background-color: var(--bg-color);
+  color: var(--primary-color);
+}

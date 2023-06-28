@@ -4,7 +4,7 @@ import { StreamersListCard } from "@/widgets/streamers-list-card";
 import { useStreamers } from "../model/lib/use-streamers";
 import cls from "./MainPage.module.scss";
 
-export const MainPage: FC = () => {
+const MainPage: FC = () => {
   const { isError, data: streamers, isLoading, refetch } = useStreamers();
 
   const onAddStreamer = useCallback(() => {
@@ -22,3 +22,5 @@ export const MainPage: FC = () => {
     </div>
   );
 };
+
+export default MainPage;

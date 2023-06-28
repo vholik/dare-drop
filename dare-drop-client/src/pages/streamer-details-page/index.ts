@@ -1,1 +1,1 @@
-export { StreamerDetailsPage } from "./ui/StreamerDetailsPage";
+export { StreamerDetailsPageAsync as StreamerDetailsPage } from "./ui/StreamerDetailsPage.async";

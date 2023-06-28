@@ -3,7 +3,7 @@ import classNames from "classnames";
 import cls from "./Header.module.scss";
 import { Button } from "@/shared/ui/Button";
 import { AuthModal } from "@/features/auth-form";
-import { setAuthData, useUserStore } from "@/entities/user";
+import { logout, setAuthData, useUserStore } from "@/entities/user";
 
 interface HeaderProps {
   className?: string;
@@ -32,7 +32,11 @@ export const Header: FC<HeaderProps> = memo((props) => {
 
   return (
     <div className={classNames(cls.Header, {}, [className])}>
-      {isAuth ? "User is auth" : <Button onClick={onOpenModal}>Sign up</Button>}
+      {isAuth ? (
+        <Button onClick={logout}>Log out</Button>
+      ) : (
+        <Button onClick={onOpenModal}>Sign up</Button>
+      )}
       <AuthModal
         isModalOpen={isOpenModal}
         onCloseModal={onCloseModal}

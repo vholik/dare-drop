@@ -6,5 +6,7 @@ export interface Streamer {
   description: string;
   image: string;
   platform: Platform;
-  voteCount: number;
+  count: number;
+  isDownvoted?: boolean;
+  isUpvoted?: boolean;
 }

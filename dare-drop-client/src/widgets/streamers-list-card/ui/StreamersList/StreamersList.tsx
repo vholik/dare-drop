@@ -20,12 +20,7 @@ export const StreamersList: FC<StreamersListProps> = memo((props) => {
       <StreamerRow
         streamer={streamer}
         key={streamer.id}
-        right={
-          <VoteStreamer
-            streamerId={streamer.id}
-            voteCount={streamer.voteCount}
-          />
-        }
+        right={<VoteStreamer streamer={streamer} />}
       />
     );
   }, []);

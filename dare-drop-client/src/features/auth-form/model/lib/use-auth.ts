@@ -1,22 +1,29 @@
 import { useMutation } from "@tanstack/react-query";
-import { SingInArgs, signIn } from "../services/sign-in";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { ApiAxiosError } from "@/shared/api/ErrorResponse";
 import { REFRESH_TOKEN_LOCALSTORAGE_KEY } from "@/shared/consts/local-storage";
+import { AuthResponse } from "@/entities/user";
 
-export function useSignIn(
-  onSuccessFunc?: (args: { accessToken: string }) => void
-) {
+interface UseAuthArgs<T> {
+  onSuccessFunc?: (args: { accessToken: string }) => void;
+  fn: (args: T) => Promise<AuthResponse>;
+}
+
+export function useAuth<T extends FieldValues>({
+  onSuccessFunc,
+  fn,
+}: UseAuthArgs<T>) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SingInArgs>({
+    watch,
+  } = useForm<T>({
     mode: "onBlur",
   });
 
   const { mutate, isLoading, error } = useMutation({
-    mutationFn: (body: SingInArgs) => signIn(body),
+    mutationFn: (body: T) => fn(body),
     onError: (err: ApiAxiosError) => err,
     onSuccess: (data) => {
       localStorage.setItem(REFRESH_TOKEN_LOCALSTORAGE_KEY, data.refreshToken);
@@ -32,6 +39,7 @@ export function useSignIn(
     error,
     register,
     handleSubmit,
+    watch,
     formErrors: errors,
   };
 }
