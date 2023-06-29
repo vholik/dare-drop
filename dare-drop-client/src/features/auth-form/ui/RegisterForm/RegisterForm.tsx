@@ -73,8 +73,8 @@ const RegisterForm: FC<RegisterFormProps> = memo((props) => {
                 value: true,
               },
               minLength: {
-                message: "Min password length is 3",
-                value: 3,
+                message: "Min password length is 8",
+                value: 8,
               },
 
               maxLength: {
