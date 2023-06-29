@@ -45,6 +45,7 @@ export const VoteStreamer: FC<VoteStreamerProps> = memo((props) => {
         })}
         onClick={onVoteStreamer(streamerId, "upvote")}
       >
+        {/* @ts-ignore */}
         <UpvoteIcon className={classNames(cls.upvoteIcon, cls.icon)} />
       </Button>
       <Text text={String(voteCount)} />
@@ -57,6 +58,7 @@ export const VoteStreamer: FC<VoteStreamerProps> = memo((props) => {
           [cls.activeBtn]: isDownvoted,
         })}
       >
+        {/* @ts-ignore */}
         <UpvoteIcon className={classNames(cls.downvoteIcon, cls.icon)} />
       </Button>
     </div>
