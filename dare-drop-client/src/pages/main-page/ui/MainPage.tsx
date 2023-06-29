@@ -1,16 +1,12 @@
 import { FC, useCallback } from "react";
 import { AddStreamerForm } from "@/features/add-streamer-form";
-import {
-  StreamersListCard,
-  USE_STREAMERS_QUERY_KEY,
-  fetchStreamers,
-} from "@/widgets/streamers-list-card";
+import { StreamersListCard } from "@/widgets/streamers-list-card";
 import cls from "./MainPage.module.scss";
-import { useQuery } from "@tanstack/react-query";
 import { socket } from "@/shared/api/socket";
+import { useStreamers } from "@/widgets/streamers-list-card";
 
 const MainPage: FC = () => {
-  const { refetch } = useQuery([USE_STREAMERS_QUERY_KEY], fetchStreamers);
+  const { refetch } = useStreamers();
 
   const onAddStreamer = useCallback(() => {
     refetch();

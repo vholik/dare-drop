@@ -1,8 +1,6 @@
 import { socket } from "@/shared/api/socket";
 import { useEffect, useState } from "react";
-import { USE_STREAMERS_QUERY_KEY } from "./use-streamers";
-import { useQuery } from "@tanstack/react-query";
-import { fetchStreamers } from "../services/fetch-streamers";
+import { USE_STREAMERS_QUERY_KEY, useStreamers } from "./use-streamers";
 import { queryClient } from "@/shared/api/query-client";
 import { Streamer } from "@/entities/streamer";
 
@@ -18,7 +16,7 @@ interface OnGetStreamerVoteResponse {
 export function useSocket() {
   const [isConnected, setIsConnected] = useState(socket.connected);
 
-  const { refetch } = useQuery([USE_STREAMERS_QUERY_KEY], fetchStreamers);
+  const { refetch } = useStreamers();
 
   useEffect(() => {
     function onConnect() {

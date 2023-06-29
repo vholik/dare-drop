@@ -8,16 +8,24 @@ import { Streamer } from "@/entities/streamer";
 import { USE_STREAMERS_QUERY_KEY } from "./use-streamers";
 import { queryClient } from "@/shared/api/query-client";
 import { useSocket } from "./use-socket";
+import { useUserStore } from "@/entities/user";
+import { openAuthForm } from "@/features/auth-form";
 
 export function useVoteStreamer() {
   const { mutate } = useMutation({
     mutationFn: (body: VoteStreamerArgs) => voteStreamer(body),
   });
+  const isAuth = useUserStore().isAuth;
 
   const { isConnected } = useSocket();
 
   const voteHandler = useCallback(
     (streamerId: string, voteState: VoteState) => {
+      if (!isAuth) {
+        openAuthForm();
+        return;
+      }
+
       mutate(
         { id: streamerId, voteState: voteState },
         {
@@ -51,7 +59,7 @@ export function useVoteStreamer() {
         }
       );
     },
-    [isConnected, mutate]
+    [isAuth, isConnected, mutate]
   );
 
   return { voteHandler: useDebounce(voteHandler, 250) };

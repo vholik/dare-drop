@@ -4,6 +4,7 @@ import cls from "./Header.module.scss";
 import { Button } from "@/shared/ui/Button";
 import { AuthModal, openAuthForm } from "@/features/auth-form";
 import { logout, useUserStore } from "@/entities/user";
+import { useStreamers } from "@/widgets/streamers-list-card";
 
 interface HeaderProps {
   className?: string;
@@ -12,10 +13,12 @@ interface HeaderProps {
 export const Header: FC<HeaderProps> = memo((props) => {
   const { className } = props;
   const isAuth = useUserStore().isAuth;
+  const { refetch } = useStreamers();
 
   const onOpenModal = useCallback(() => {
     openAuthForm();
-  }, []);
+    refetch();
+  }, [refetch]);
 
   return (
     <div className={classNames(cls.Header, {}, [className])}>

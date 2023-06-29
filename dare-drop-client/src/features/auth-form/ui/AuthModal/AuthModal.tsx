@@ -6,6 +6,7 @@ import { Tabs } from "@/shared/ui/Tabs";
 import { RegisterFormAsync } from "../RegisterForm/RegisterForm.async";
 import { setAuthData } from "@/entities/user";
 import { closeAuthForm, useAuthFormStore } from "../..";
+import { useStreamers } from "@/widgets/streamers-list-card/model/lib/use-streamers";
 
 interface AuthModalProps {
   className?: string;
@@ -20,6 +21,7 @@ export const AuthModal: FC<AuthModalProps> = memo((props) => {
   const { className } = props;
   const [activeTab, setActiveTab] = useState(options[0]["value"]);
   const isModalOpen = useAuthFormStore().isOpen;
+  const { refetch } = useStreamers();
 
   const onCloseModal = useCallback(() => {
     closeAuthForm();
@@ -33,8 +35,9 @@ export const AuthModal: FC<AuthModalProps> = memo((props) => {
     ({ accessToken }: { accessToken: string }) => {
       onCloseModal();
       setAuthData({ accessToken });
+      refetch();
     },
-    [onCloseModal]
+    [onCloseModal, refetch]
   );
 
   return (
