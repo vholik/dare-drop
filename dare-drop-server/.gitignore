@@ -28,6 +28,7 @@ pgdata/
 .settings/
 *.sublime-workspace
 .env
+.vscode
 
 # IDE - VSCode
 .vscode/*
