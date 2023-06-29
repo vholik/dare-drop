@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { initUser, setAuthData } from "../store/user-store";
 import { REFRESH_TOKEN_LOCALSTORAGE_KEY } from "@/shared/consts/local-storage";
-import { __API_URL__ } from "@/shared/consts/api";
 import { fetchRefreshToken } from "@/shared/api/api";
 
 export function useInitUser() {

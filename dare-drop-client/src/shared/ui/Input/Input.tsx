@@ -1,5 +1,4 @@
 import {
-  memo,
   type FC,
   type InputHTMLAttributes,
   forwardRef,

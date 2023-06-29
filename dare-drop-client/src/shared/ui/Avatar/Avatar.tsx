@@ -15,6 +15,7 @@ export const Avatar: FC<AvatarProps> = memo((props) => {
   return (
     <img
       {...otherProps}
+      alt={alt}
       className={classNames(cls.Avatar, {}, [className, [cls[size]]])}
     />
   );

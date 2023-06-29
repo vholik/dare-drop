@@ -1,10 +1,4 @@
-import {
-  FC,
-  ForwardedRef,
-  TextareaHTMLAttributes,
-  forwardRef,
-  memo,
-} from "react";
+import { FC, ForwardedRef, TextareaHTMLAttributes, forwardRef } from "react";
 import classNames from "classnames";
 import cls from "./Textarea.module.scss";
 

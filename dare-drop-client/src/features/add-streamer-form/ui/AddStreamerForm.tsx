@@ -8,11 +8,10 @@ import { DropdownItem } from "@/shared/ui/Dropdown";
 import { Textarea } from "@/shared/ui/Textarea";
 import { Button } from "@/shared/ui/Button";
 import { Heading } from "@/shared/ui/Heading";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { AddStreamerArgs, addStreamer } from "../model/services/add-streamer";
+import { Controller, SubmitHandler } from "react-hook-form";
+import { AddStreamerArgs } from "../model/services/add-streamer";
 import { Platform } from "@/shared/consts/platform";
 import { Note } from "@/shared/ui/Note";
-import { useMutation } from "@tanstack/react-query";
 import { useAddStreamer } from "../model/lib/user-add-streamer";
 
 interface AddStreamerFormProps {

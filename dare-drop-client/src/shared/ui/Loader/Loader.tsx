@@ -1,7 +1,7 @@
 import { FC, memo } from "react";
 import "./Loader.scss";
 
-export const Loader: FC = memo((props) => {
+export const Loader: FC = memo(() => {
   return (
     <div className="Loader">
       <div className="lds-spinner">

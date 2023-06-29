@@ -2,11 +2,10 @@ import { FC, memo, useCallback, useState } from "react";
 import classNames from "classnames";
 import { Modal } from "@/shared/ui/Modal";
 import { LoginFormAsync } from "../LoginForm/LoginForm.async";
-import RegisterForm from "../RegisterForm/RegisterForm";
 import { Tabs } from "@/shared/ui/Tabs";
 import { RegisterFormAsync } from "../RegisterForm/RegisterForm.async";
 import { setAuthData } from "@/entities/user";
-import { closeAuthForm, openAuthForm, useAuthFormStore } from "../..";
+import { closeAuthForm, useAuthFormStore } from "../..";
 
 interface AuthModalProps {
   className?: string;

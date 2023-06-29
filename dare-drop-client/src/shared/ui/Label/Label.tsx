@@ -1,6 +1,5 @@
 import { FC, ReactNode, memo } from "react";
 import cls from "./Label.module.scss";
-import classNames from "classnames";
 
 interface LabelProps {
   className?: string;
@@ -9,7 +8,7 @@ interface LabelProps {
 }
 
 export const Label: FC<LabelProps> = memo((props) => {
-  const { className, label, children } = props;
+  const { label, children } = props;
 
   return (
     <label className={cls.Label}>
