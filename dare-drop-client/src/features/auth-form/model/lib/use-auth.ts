@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { FieldValues, useForm } from "react-hook-form";
-import { ApiAxiosError } from "@/shared/api/ErrorResponse";
+import { ApiAxiosError } from "@/shared/types/api";
 import { REFRESH_TOKEN_LOCALSTORAGE_KEY } from "@/shared/consts/local-storage";
 import { AuthResponse } from "@/entities/user";
 
