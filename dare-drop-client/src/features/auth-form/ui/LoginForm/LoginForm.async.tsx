@@ -8,7 +8,13 @@ const LoginForm = lazy(() => import("./LoginForm"));
 
 export const LoginFormAsync = (props: LoginFormProps) => {
   return (
-    <Suspense fallback={<Loader />}>
+    <Suspense
+      fallback={
+        <div className="loader">
+          <Loader />
+        </div>
+      }
+    >
       <LoginForm {...props} />
     </Suspense>
   );
