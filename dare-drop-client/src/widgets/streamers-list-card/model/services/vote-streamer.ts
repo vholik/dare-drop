@@ -3,16 +3,18 @@ import { VoteState } from "@/shared/types/vote";
 
 export interface VoteStreamerArgs {
   voteState: VoteState;
-  id: number;
+  id: string;
 }
 
-interface VoteStreamerResponse {
+export interface VoteStreamerRes {
+  isDownvoted: boolean;
+  isUpvoted: boolean;
   voteCount: number;
 }
 
 export const voteStreamer = async (
   args: VoteStreamerArgs
-): Promise<VoteStreamerResponse> => {
+): Promise<VoteStreamerRes> => {
   const { id, voteState } = args;
 
   const response = await $api.put(`/streamers/${id}/vote`, {

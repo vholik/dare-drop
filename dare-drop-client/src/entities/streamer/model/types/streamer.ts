@@ -1,7 +1,7 @@
 import { Platform } from "@/shared/consts/platform";
 
 export interface Streamer {
-  id: number;
+  id: string;
   name: string;
   description: string;
   image: string;

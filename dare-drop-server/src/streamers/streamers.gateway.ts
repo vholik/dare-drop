@@ -6,7 +6,8 @@ import {
   WsException,
 } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
-import { VoteState } from './dto';
+import { StreamersService } from './streamers.service';
+import { CustomSocket } from 'src/authentication/lib';
 
 @WebSocketGateway({
   cors: {
@@ -14,32 +15,27 @@ import { VoteState } from './dto';
   },
 })
 export class StreamersGateway {
-  @SubscribeMessage('create-streamer')
-  createStreamer(
-    @MessageBody() data: { id: number },
-    @ConnectedSocket() socket: Socket,
-  ) {
-    if (!data.id) {
-      throw new WsException('Provide id');
-    }
+  constructor(private streamersService: StreamersService) {}
 
-    socket.broadcast.emit('get-new-streamer', data);
+  @SubscribeMessage('create-streamer')
+  createStreamer(@ConnectedSocket() socket: Socket) {
+    socket.broadcast.emit('get-new-streamer');
   }
 
   @SubscribeMessage('vote-streamer')
-  voteStreamer(
-    @MessageBody() data: { id: number; state: VoteState },
-    @ConnectedSocket() socket: Socket,
+  async voteStreamer(
+    @MessageBody() data: { id: string },
+    @ConnectedSocket() socket: CustomSocket,
   ) {
-    // NOTE MAKE JUST RETURN VOTE COUNT
-    if (!data.state) {
-      throw new WsException('Provide vote state');
-    }
-
-    if (!data.id) {
+    if (!data || !data.id) {
       throw new WsException('Provide id');
     }
 
-    socket.broadcast.emit('get-streamer-vote', data);
+    const res = {
+      id: data.id,
+      voteCount: await this.streamersService.getStreamerCount(data.id),
+    };
+
+    socket.broadcast.emit('get-streamer-vote', res);
   }
 }

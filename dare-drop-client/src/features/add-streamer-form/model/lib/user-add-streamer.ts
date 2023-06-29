@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { AddStreamerArgs, addStreamer } from "../services/add-streamer";
 import { Platform } from "@/shared/consts/platform";
 import { useForm } from "react-hook-form";
-import { ApiAxiosError } from "@/shared/api/ErrorResponse";
+import { ApiAxiosError } from "@/shared/types/api";
 
 export function useAddStreamer(onAddStreamer?: () => void) {
   const { mutate, isLoading, error } = useMutation({

@@ -1,4 +1,4 @@
-import { FC, memo } from "react";
+import { FC } from "react";
 
 import cls from "./LayoutHeader.module.scss";
 

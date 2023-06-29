@@ -12,7 +12,7 @@ import { SingUpArgs, signUp } from "../../model/services/sign-up";
 
 export interface RegisterFormProps {
   className?: string;
-  onSuccess?: () => void;
+  onSuccess?: ({ accessToken }: { accessToken: string }) => void;
 }
 
 const RegisterForm: FC<RegisterFormProps> = memo((props) => {

@@ -5,12 +5,11 @@ import { LoginFormAsync } from "../LoginForm/LoginForm.async";
 import RegisterForm from "../RegisterForm/RegisterForm";
 import { Tabs } from "@/shared/ui/Tabs";
 import { RegisterFormAsync } from "../RegisterForm/RegisterForm.async";
+import { setAuthData } from "@/entities/user";
+import { closeAuthForm, openAuthForm, useAuthFormStore } from "../..";
 
 interface AuthModalProps {
   className?: string;
-  onCloseModal?: () => void;
-  onSuccess?: (args: { accessToken: string }) => void;
-  isModalOpen?: boolean;
 }
 
 const options = [
@@ -19,12 +18,25 @@ const options = [
 ];
 
 export const AuthModal: FC<AuthModalProps> = memo((props) => {
-  const { className, isModalOpen, onCloseModal, onSuccess } = props;
+  const { className } = props;
   const [activeTab, setActiveTab] = useState(options[0]["value"]);
+  const isModalOpen = useAuthFormStore().isOpen;
+
+  const onCloseModal = useCallback(() => {
+    closeAuthForm();
+  }, []);
 
   const onChangeTab = useCallback((value: string) => {
     setActiveTab(value);
   }, []);
+
+  const onSuccess = useCallback(
+    ({ accessToken }: { accessToken: string }) => {
+      onCloseModal();
+      setAuthData({ accessToken });
+    },
+    [onCloseModal]
+  );
 
   return (
     <Modal
@@ -38,7 +50,7 @@ export const AuthModal: FC<AuthModalProps> = memo((props) => {
       {activeTab === "signin" ? (
         <LoginFormAsync onSuccess={onSuccess} />
       ) : (
-        <RegisterFormAsync />
+        <RegisterFormAsync onSuccess={onSuccess} />
       )}
     </Modal>
   );

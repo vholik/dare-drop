@@ -1,24 +1,39 @@
-import { FC, memo, useEffect, useState } from "react";
+import { FC, memo, useCallback } from "react";
 import classNames from "classnames";
 import cls from "./VoteStreamer.module.scss";
 import UpvoteIcon from "@/shared/assets/icons/upvote-icon.svg";
 import { Text } from "@/shared/ui/Text";
 import { Button } from "@/shared/ui/Button";
-import { useVoteStreamer } from "../model/lib/use-vote-streamer";
-import { Streamer } from "@/entities/streamer";
+import { VoteState } from "@/shared/types/vote";
 
 interface VoteStreamerProps {
   className?: string;
-  streamer: Streamer;
+  voteHandler: (streamerId: string, voteState: VoteState) => void;
+  isDownvoted?: boolean;
+  isUpvoted?: boolean;
+  voteCount: number;
+  streamerId: string;
 }
 
 /**
  * @feature VoteStreamer
  */
 export const VoteStreamer: FC<VoteStreamerProps> = memo((props) => {
-  const { className, streamer } = props;
-  const { downvoteHandler, upvoteHandler, voteCount, vote } =
-    useVoteStreamer(streamer);
+  const {
+    className,
+    voteHandler,
+    isDownvoted,
+    isUpvoted,
+    voteCount,
+    streamerId,
+  } = props;
+
+  const onVoteStreamer = useCallback(
+    (streamerId: string, voteState: VoteState) => {
+      return () => voteHandler(streamerId, voteState);
+    },
+    [voteHandler]
+  );
 
   return (
     <div className={classNames(cls.VoteStreamer, {}, [className])}>
@@ -26,9 +41,9 @@ export const VoteStreamer: FC<VoteStreamerProps> = memo((props) => {
         square
         theme="secondary"
         className={classNames("", {
-          [cls.activeBtn]: vote === "upvote",
+          [cls.activeBtn]: isUpvoted,
         })}
-        onClick={upvoteHandler}
+        onClick={onVoteStreamer(streamerId, "upvote")}
       >
         <UpvoteIcon className={classNames(cls.upvoteIcon, {}, [cls.icon])} />
       </Button>
@@ -37,9 +52,9 @@ export const VoteStreamer: FC<VoteStreamerProps> = memo((props) => {
       <Button
         square
         theme="secondary"
-        onClick={downvoteHandler}
+        onClick={onVoteStreamer(streamerId, "downvote")}
         className={classNames("", {
-          [cls.activeBtn]: vote === "downvote",
+          [cls.activeBtn]: isDownvoted,
         })}
       >
         <UpvoteIcon className={classNames(cls.downvoteIcon, {}, [cls.icon])} />

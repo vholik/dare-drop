@@ -140,6 +140,10 @@ export class StreamersService {
       await this.downvoteStreamer(streamerId, userId);
     }
 
-    return await this.getStreamerCount(streamerId);
+    return {
+      voteCount: await this.getStreamerCount(streamerId),
+      isUpvoted: await this.isAlreadyUpvoted(streamerId, userId),
+      isDownvoted: await this.isAlreadyDownvoted(streamerId, userId),
+    };
   }
 }

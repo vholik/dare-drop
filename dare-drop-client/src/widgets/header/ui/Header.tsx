@@ -1,9 +1,9 @@
-import { FC, memo, useCallback, useState } from "react";
+import { FC, memo, useCallback } from "react";
 import classNames from "classnames";
 import cls from "./Header.module.scss";
 import { Button } from "@/shared/ui/Button";
-import { AuthModal } from "@/features/auth-form";
-import { logout, setAuthData, useUserStore } from "@/entities/user";
+import { AuthModal, openAuthForm } from "@/features/auth-form";
+import { logout, useUserStore } from "@/entities/user";
 
 interface HeaderProps {
   className?: string;
@@ -11,24 +11,11 @@ interface HeaderProps {
 
 export const Header: FC<HeaderProps> = memo((props) => {
   const { className } = props;
-  const [isOpenModal, setIsOpenModal] = useState(false);
   const isAuth = useUserStore().isAuth;
 
-  const onCloseModal = useCallback(() => {
-    setIsOpenModal(false);
-  }, []);
-
   const onOpenModal = useCallback(() => {
-    setIsOpenModal(true);
+    openAuthForm();
   }, []);
-
-  const onSuccess = useCallback(
-    ({ accessToken }: { accessToken: string }) => {
-      onCloseModal();
-      setAuthData({ accessToken });
-    },
-    [onCloseModal]
-  );
 
   return (
     <div className={classNames(cls.Header, {}, [className])}>
@@ -37,11 +24,7 @@ export const Header: FC<HeaderProps> = memo((props) => {
       ) : (
         <Button onClick={onOpenModal}>Sign up</Button>
       )}
-      <AuthModal
-        isModalOpen={isOpenModal}
-        onCloseModal={onCloseModal}
-        onSuccess={onSuccess}
-      />
+      <AuthModal />
     </div>
   );
 });

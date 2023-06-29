@@ -11,8 +11,6 @@ import { Request, Response, NextFunction } from 'express';
 import { UsersModule } from './users/users.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { User } from './users/entities';
-import { Streamer } from './streamers/entities';
 
 //REMOVE
 @Injectable()
