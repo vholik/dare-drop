@@ -10,7 +10,6 @@ const MainPage: FC = () => {
 
   const onAddStreamer = useCallback(() => {
     refetch();
-    console.log("ADDING STREAMER");
     socket.emit("create-streamer");
   }, [refetch]);
 
